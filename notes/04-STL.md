@@ -131,6 +131,7 @@ cout << arr[2].first << " " << arr[2].second << endl;
 - which has some limitations, constant in size (cannot increase the size)
 - declaration : `vector<int> vec;` creates an empty container 
 - adding values to the end of vector (appending):  `push_back`, `emplace_back`
+- `.emplace_back()` is faster than `.push_back()`, does not create temporary storage
 - after adding the values to the vector the size increases by `2x` every time it gets bottleneck
 
 ```cpp
@@ -412,6 +413,9 @@ vec7.erase(vec7.begin() + 2);
 printVector(vec7);
 
 ```
+```txt
+10 20 40 50 
+```
 
 
 - range erasing : `vecName.erase(start, end);`, erases `[start, end)`
@@ -425,7 +429,6 @@ vec8.erase(vec8.begin() + 2, vec8.end() - 2);
 printVector(vec8);
 ```
 ```txt
-10 20 40 50 
 11 22 99 110 
 ```
 
@@ -583,7 +586,7 @@ st1.swap(st2);
 	- `.pop()` : removes from the first element of queue
 	- `.empty()` : True if stack empty, False if not empty 
 	- `.size()` : gives the size `#elements` in stack 
-	- `.swap()` : swaps different stack 
+	- `.swap()` : swaps different queue
 
 ```cpp
 void printQueue(queue<int> q) {
@@ -772,6 +775,269 @@ printMinPriorityQueue(pq2); // 2 5 6 8 10
 - functionality of insert in vector can be used also 
 - `begin`, `end`, `rbegin`, `rend`, `size`, `empty`, `swap` are same
 - since unique `.count()` gives if element is present or not 
+- this is also not a linear container a tree is maintained inside 
+
+```cpp
+// same like other container traversal while not empty pop/erase and print
+void printSet(set<int> s)
+{
+    while (!s.empty())
+    {
+        cout << *s.begin() << " ";
+        s.erase(s.begin());
+    }
+    cout << endl;
+}
+```
+
+```cpp
+ set<int> s;
+s.insert(1);
+s.insert(2);
+s.insert(10);
+s.insert(3);
+s.insert(2);
+s.insert(4);
+s.insert(3);
+printSet(s);
+```
+```txt
+1 2 3 4 10 
+3
+1 3 4 
+0
+```
+
+- finding the element returns the iterator for that point 
+```cpp
+auto it = s.find(3);
+cout << *it << endl; // 3
+
+it = s.find(100); // no element so returns s.end()
+```
+```txt
+3
+```
+
+
+- removal can be done using `.erase(element)` or using `.erase(iterator)`
+```cpp
+it = s.find(2); // since returns the iterator after finding
+s.erase(10); // removes element using value
+s.erase(it); // removes using iterator
+
+for (auto it = s.begin(); it != s.end(); it++)
+	cout << *it << " ";
+cout << endl;
+```
+```txt
+1 3 4
+```
+
+- `.count(element)` returns the count of the element 
+- gives `true` or `false` since it contains only the unique 
+- we can also remove the range using iterators same range `[start, end)` is erased
+- all the other iterators are almost similar to vector 
+
+```cpp
+cout << s.count(10) << endl; // 0 (returns True or False)
+set<int> s1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+auto it1 = s1.find(4);
+auto it2 = s1.find(7);
+s1.erase(it1, it2);
+printSet(s1); // [start, end) is erased (1 2 3 7 8 9 10) remains
+```
+```txt
+0
+1 2 3 7 8 9 10
+```
+
+- everything happens in `0(LogN)`
+- `.lower_bound(element)` looks for the element immediately <= that given element 
+- so for lower bound `iterator_returned >= given_element`
+- `.upper_bound(element)` looks for the element immediately > that given element 
+- so for the upper bound `iterator_returned < given_element`
+- if goes out of list gives `itr @ (n)`
+
+```cpp
+cout << *(s1.lower_bound(3)) << endl;
+cout << *(s1.lower_bound(5)) << endl;
+cout << *(s1.lower_bound(6)) << endl;
+
+cout << *(s1.upper_bound(1)) << endl;
+cout << *(s1.upper_bound(5)) << endl;
+cout << *(s1.upper_bound(6)) << endl;
+cout << *(s1.upper_bound(9)) << endl;
+```
+```txt
+3
+7
+7
+
+2
+7
+7
+10
+```
+
+
+
+
+## unordered_set
+- everything is similar to set 
+- does not store in the sorted order 
+- randomized order (but contains unique just like set) 
+- `O(1)` time complexity in most cases, for the worst case it is `O(N)`
+- `lower_bound()` and `.upper_bound()` are not there since no order 
+
+
+
+## MultiSet
+- only keeps sorted (not unique)
+- stores duplicate numbers 
+- since contains duplicate `.count()` gives number 
+
+```cpp
+void printMultiset(multiset<int> ms)
+{
+    while (!ms.empty())
+    {
+        cout << *ms.begin() << " ";
+        ms.erase(ms.begin());
+    }
+    cout << endl;
+}
+
+multiset<int> ms;
+ms.insert(1);
+ms.insert(2);
+ms.insert(3);
+ms.insert(4);
+ms.insert(1);
+ms.insert(4);
+ms.insert(1);
+ms.insert(1);
+ms.insert(1);
+printMultiset(ms);
+
+cout << ms.count(1) << endl;
+cout << ms.count(4) << endl;
+```
+```txt
+1 1 1 1 1 2 3 4 4 
+5
+2
+```
+
+- removal and eraser is also somewhat similar to set 
+- `erase()` removes all the instance of the number 
+```cpp
+// removes all the 4
+ms.erase(4);
+printMultiset(ms);
+```
+```txt
+1 1 1 1 1 2 3 
+1 1 1 1 2 3 
+```
+
+
+
+- `erase(iterator)` removes the first element which is found by iterator 
+```cpp
+ms.erase(ms.find(1));
+cout << ms.count(1) << endl;
+printMultiset(ms);
+
+auto it1 = ms.find(1);
+auto it2 = it1;
+std::advance(it2, 2); // modifies it2 directly
+ms.erase(it1, it2);
+cout << ms.count(1) << endl;
+```
+```txt
+4
+1 1 1 1 2 3 
+2
+1 1 2 3 
+```
+
+
+
+
+
+## Map
+- map stores `key:value` pairs 
+- `keys` are unique 
+- `values` can be duplicate, `keys` are unique
+- map stores unique keys in sorted order 
+- all the other functions works in the exact same manner 
+
+```cpp
+// declaration and addition of values in the map
+map<int, int> mp;
+mp[1] = 2;
+mp.insert({10, 3});
+mp.emplace(5, -1);
+printMap(mp);
+
+// getting the values of the map
+cout << mp[1] << endl; // 2
+cout << mp[5] << endl; // 1
+cout << mp[4] << endl; // 0 since null (not present)
+```
+```txt
+1 2
+5 -1
+10 3
+2
+-1
+0
+```
+
+
+- declaration of maps involving `pair` is same just the key or value has pair inside it 
+- pair can be nested to any levels 
+
+```cpp
+// pair in maps
+map<int, pair<int, int>> pairvalue_map;
+pairvalue_map[3] = {1, 2};
+
+map<pair<int, int>, int> pairkey_map;
+pairkey_map[{2, 4}] = 10;
+```
+
+- finding keys inside the map 
+- find gives the iterator for the key of the map
+- `lower_bound()` and `upper_bound()` are the same as sets
+
+
+```cpp
+auto it = mp.find(10);
+cout << (*it).first << endl;  // 10
+cout << (*it).second << endl; // 3
+
+it = mp.find(20);
+cout << (*it).second << endl; // 0 since nothing there
+```
+```txt
+10
+3
+0
+```
+
+
+
+## Multimap 
+- same as map 
+- just can store duplicate keys 
+
+
+## Unordered map 
+- same as map 
+- just is not sorted 
 
 
 
@@ -781,41 +1047,84 @@ printMinPriorityQueue(pq2); // 2 5 6 8 10
 
 
 
+# Algorithms 
+
+- Algorithms are pre-defined operations (functions) 
+- work on data structures (mainly through iterators).
+- Examples: searching, sorting, counting, finding min/max, modifying elements.
+- They are written in a generic way, so they can work with any container that supports iterators.
+- Examples from `<algorithm>`:
+	- `sort(begin, end)`
+	- `find(begin, end, value)`
+	- `reverse(begin, end)`
+	- `count(begin, end, value)`
 
 
 
+### Sorting 
+- getting elements in ascending or descending order 
+
+```cpp
+vector<int> vec = {1, 5, 2, -1, 3, 2};
+sort(vec.begin(), vec.end());
+printvector(vec);
+
+// greater<int>() is a comparator to sort in decending order
+sort(vec.begin(), vec.end(), greater<int>());
+printvector(vec);
+```
+```txt
+-1 1 2 2 3 5 
+5 3 2 2 1 -1 
+```
 
 
 
+### counting number of set bits in the number 
+
+```cpp
+// returning number of set bits in a number
+int num = 7;
+int cnt = __builtin_popcount(num);
+cout << cnt << endl;
+
+long long number = 1679482647203;
+cnt = __builtin_popcountll(number);
+cout << cnt << endl;
+```
+```txt
+3
+21
+```
 
 
 
+### permutations of the string 
+```cpp
+string s = "123";
+do
+{
+	cout << s << endl;
+} while (next_permutation(s.begin(), s.end()));
+// returns false if no more permutations
+```
+```txt
+123
+132
+213
+231
+312
+321
+```
 
 
+### getting max element in the vector or array
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- Algorithms 
-	- Algorithms are pre-defined operations (functions) 
-	- work on data structures (mainly through iterators).
-	- Examples: searching, sorting, counting, finding min/max, modifying elements.
-	- They are written in a generic way, so they can work with any container that supports iterators.
-	- Examples from `<algorithm>`:
-	    - `sort(begin, end)`
-	    - `find(begin, end, value)`
-	    - `reverse(begin, end)`
-	    - `count(begin, end, value)`
+```cpp
+vector<int> vec = {1, 5, 2, -1, 3, 2};
+int maxi = *max_element(vec.begin(), vec.end());
+cout << maxi << endl;
+```
+```txt
+5
+```
