@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "2a7623e99cb3eedc",
+        "id": "a17ce1788b3e900d",
         "type": "tabs",
         "children": [
           {
-            "id": "94b0def0eabcb01b",
+            "id": "4e6f70cfc3298aa9",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/04-STL.md",
+                "file": "notes/06-Recursion.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "04-STL"
+              "title": "06-Recursion"
             }
           }
         ]
@@ -169,32 +169,35 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "94b0def0eabcb01b",
+  "active": "4f433210657bd3ef",
   "lastOpenFiles": [
-    "stl/11-algorithms",
-    "stl/11-algorithms.cpp",
-    "stl/10-map",
-    "stl/10-map.cpp",
-    "stl/09-Multiset",
-    "stl/09-Multiset.cpp",
-    "stl/08-set",
-    "notes/03-Patterns.md",
-    "notes/04-STL.md",
-    "stl/08-set.cpp",
-    "08-set.cpp",
-    "stl/07-Priority-queue",
-    "stl/07-Priority-queue.cpp",
-    "readme.md",
+    "notes/05-math.md",
+    "math/10-Sieve-of-Eratosthenes.out",
+    "images/cpp/maths/seive-of-eh-ruh-taws-teh-neez.png",
     "notes/02-Time and space complexity.md",
+    "notes/06-Recursion.md",
+    "recursion/09-fibonacci-num.out",
+    "recursion/09-fibonacci-num.cpp",
+    "recursion/08-check-palindrome.out",
+    "recursion/07-reverse-an-array.out",
+    "recursion/08-check-palindrome.cpp",
+    "recursion/07-reverse-an-array.cpp",
+    "recursion/06-factorial-of-n.out",
+    "recursion/06-factorial-of-n.cpp",
+    "recursion/05-sum-of-n.out",
+    "images/cpp/maths/prime-factorization-of-780.png",
+    "notes/01-basics of cpp.md",
+    "images/cpp/maths/factors-of-36.png",
+    "notes/04-STL.md",
+    "05-math.md",
+    "notes/03-Patterns.md",
+    "readme.md",
     "images/cpp/complexity/complexities.png",
     "images/cpp/complexity/angle.png",
     "images/cpp/complexity/Pasted image 20250912214639.png",
     "images/cpp/complexity/Pasted image 20250912203013.png",
-    "notes/01-basics of cpp.md",
     "Pasted image 20250912203444.png",
     "Pasted image 20250912202402.png",
-    "Pasted image 20250912202217.png",
-    "Pasted image 20250912202248.png",
-    "Pasted image 20250912202348.png"
+    "Pasted image 20250912202217.png"
   ]
 }
