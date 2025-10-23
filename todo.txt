@@ -18,4 +18,4 @@
     f> recursive insertion sort
     g> quick sort
 
-5> hashing theory and problems
+5> hashing theory and problems          ✅
